@@ -11,8 +11,11 @@ import pandas as pd
 import numpy as np
 import os
 from random import randint
-from matplotlib import pyplot as plt
+
+import matplotlib
 matplotlib.use("Agg")
+from matplotlib import pyplot as plt
+
 
 # from utils.heatmap_minmax import getRGB, rescale_score_by_abs
 

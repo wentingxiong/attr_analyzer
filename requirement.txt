@@ -26,9 +26,11 @@ docutils==0.14
 entrypoints==0.2.3
 Flask==1.0.2
 Flask-Compress==1.4.0
+Flask-SeaSurf==0.2.2
 gast==0.2.0
 gensim==3.4.0
 grpcio==1.11.0
+gunicorn==19.7.1
 h5py==2.7.1
 html5lib==0.9999999
 idna==2.6

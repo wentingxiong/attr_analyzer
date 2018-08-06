@@ -147,46 +147,46 @@ app.layout = html.Div([
         )
     ],
         style={'width': '45%', 'display': 'inline-block', 'vertical-align': 'top'}),
-    html.Div(style={'width': '2%', 'display': 'inline-block','vertical-align': 'middle'})
-    #
-    # html.Div([
-    #     html.H4("Choose a class to compute attribution scores"),
-    #     dcc.Dropdown(
-    #         id='class-input-right',
-    #         options=[{'label': k, 'value': np.argmax(v)}
-    #                  for k, v in label_dict.items()],
-    #         value=0,
-    #         clearable=False
-    #     ),
-    #     #html.H3("Highlighted Document"),
-    #     html.Div(
-    #         id='high-light',
-    #         style={'overflowY': 'scroll', 'height': 200, "margin-top": 36, 'border': 'thin lightgrey solid'}
-    #     ),
-    #     html.H4("Type of attributions"),
-    #     dcc.Dropdown(
-    #         id = 'attr-method',
-    #         options=[{'label': "Attributions on words", 'value': 0,},
-    #                  {'label': "Attributions on ngram", 'value': 1, },
-    #                  {'label': "Attribution differences on words", 'value': 2, },
-    #                  {'label': "Attributions differences on words", 'value': 3, }],
-    #         value=0,
-    #         clearable=False
-    #         ),
-    #     dt.DataTable(
-    #         # Initialise the rows
-    #         rows=[{}],
-    #         #row_selectable=True,
-    #         filterable=True,
-    #         sortable=True,
-    #         #selected_row_indices=[],
-    #         id='table-display'
-    #     )
-    # ],
-    #     style={'width': '45%', 'display': 'inline-block','vertical-align': 'middle'}),
-    #
-    # # hidden divs
-    # html.Div(id = 'doc-id', style = {'display': "nne"})
+    html.Div(style={'width': '2%', 'display': 'inline-block','vertical-align': 'middle'}),
+
+    html.Div([
+        html.H4("Choose a class to compute attribution scores"),
+        dcc.Dropdown(
+            id='class-input-right',
+            options=[{'label': k, 'value': np.argmax(v)}
+                     for k, v in label_dict.items()],
+            value=0,
+            clearable=False
+        ),
+        #html.H3("Highlighted Document"),
+        html.Div(
+            id='high-light',
+            style={'overflowY': 'scroll', 'height': 200, "margin-top": 36, 'border': 'thin lightgrey solid'}
+        ),
+        html.H4("Type of attributions"),
+        dcc.Dropdown(
+            id = 'attr-method',
+            options=[{'label': "Attributions on words", 'value': 0,},
+                     {'label': "Attributions on ngram", 'value': 1, },
+                     {'label': "Attribution differences on words", 'value': 2, },
+                     {'label': "Attributions differences on words", 'value': 3, }],
+            value=0,
+            clearable=False
+            ),
+        dt.DataTable(
+            # Initialise the rows
+            rows=[{}],
+            #row_selectable=True,
+            filterable=True,
+            sortable=True,
+            #selected_row_indices=[],
+            id='table-display'
+        )
+    ],
+        style={'width': '45%', 'display': 'inline-block','vertical-align': 'middle'}),
+
+    # hidden divs
+    html.Div(id = 'doc-id', style = {'display': "nne"})
 ])
 
 # @app.callback(

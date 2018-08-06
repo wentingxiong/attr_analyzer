@@ -47,8 +47,8 @@ app.scripts.config.serve_locally = False
 # DOC_ID = 0
 # CLASS_ID = 0
 
-# cmap_name="bwr"
-# colormap  = plt.get_cmap(cmap_name)
+cmap_name="bwr"
+colormap  = plt.get_cmap(cmap_name)
 
 
 def rescale_score_by_abs(score, max_score, min_score):
@@ -216,66 +216,66 @@ def update_input_text(doc_id):
 #     return ' '.join(x_string)
 
 
-# @app.callback(
-#     Output('high-light', 'children'),
-#     [Input('doc-id', "children"),
-#      Input('class-input-right', 'value')]
-# )
-# def update_highlight(doc_id,class_n):
-#     attr_df = attr_word_df_list[doc_id]
-#     x_string = attr_df['word'].tolist()
-#     scores =  attr_df['attr_%d'% int(class_n)].tolist()
-#     max_v = max(scores)
-#     min_v = min(scores)
-#     span_list = []
-#     for word, s in zip(x_string, scores):
-#         score_scale = rescale_score_by_abs(s, max_v, min_v)
-#         style = {'backgroundColor': getRGB(colormap(score_scale)),
-#         'display': 'inline-block'}
-#         span_list.append(
-#             html.Span(word, style = style)
-#         )
-#         span_list.append(html.Span(" "))
-#
-#     return html.Div(span_list)
-#
-#
-# @app.callback(
-#     Output('table-display', 'rows'),
-#     [Input('class-input-right', 'value'),
-#      Input('attr-method', 'value'),
-#      Input('doc-id', "children")])
-# def update_table(class_n, method, doc_id):
-#     true_class = prob_df.loc[doc_id, "true_class"]
-#     if method == 0: # word
-#         attr_df = attr_word_df_list[doc_id]
-#         attr_df['Feature'] = attr_df['word']
-#         attr_df['Index'] = attr_df['index']
-#         attr_df['Attribution Score'] = attr_df['attr_%d'% int(class_n)]
-#     elif method == 2: # diff word
-#         attr_df = attr_word_df_list[doc_id]
-#         attr_df['Feature'] = attr_df['word']
-#         attr_df['Index'] = attr_df['index']
-#         attr_df['Attribution Score'] = attr_df['attr_%d' % int(class_n)] - attr_df['attr_%d' % int(true_class)]
-#     elif method == 1: # ngram
-#         attr_df = attr_ngram_df_list[doc_id]
-#         attr_df['Feature'] = attr_df.index
-#         attr_df['Index'] = attr_df['pos']
-#         attr_df['Attribution Score'] = attr_df['attr_%d' % int(class_n)]
-#     else: # diff ngram
-#         attr_df = attr_ngram_df_list[doc_id]
-#         attr_df['Feature'] = attr_df.index
-#         attr_df['Index'] = attr_df['pos']
-#         attr_df['Attribution Score'] = attr_df['attr_%d' % int(class_n)] - attr_df['attr_%d' % int(true_class)]
-#
-#     attr_df = attr_df[['Index','Feature','Attribution Score']]
-#     max_v = attr_df['Attribution Score'].max()
-#     min_v = attr_df['Attribution Score'].min()
-#     attr_df = attr_df[attr_df['Attribution Score'] != 0]
-#     return ConditionalTable(attr_df, max_v, min_v)
-#
-#
-#
+@app.callback(
+    Output('high-light', 'children'),
+    [Input('doc-id', "children"),
+     Input('class-input-right', 'value')]
+)
+def update_highlight(doc_id,class_n):
+    attr_df = attr_word_df_list[doc_id]
+    x_string = attr_df['word'].tolist()
+    scores =  attr_df['attr_%d'% int(class_n)].tolist()
+    max_v = max(scores)
+    min_v = min(scores)
+    span_list = []
+    for word, s in zip(x_string, scores):
+        score_scale = rescale_score_by_abs(s, max_v, min_v)
+        style = {'backgroundColor': getRGB(colormap(score_scale)),
+        'display': 'inline-block'}
+        span_list.append(
+            html.Span(word, style = style)
+        )
+        span_list.append(html.Span(" "))
+
+    return html.Div(span_list)
+
+
+@app.callback(
+    Output('table-display', 'rows'),
+    [Input('class-input-right', 'value'),
+     Input('attr-method', 'value'),
+     Input('doc-id', "children")])
+def update_table(class_n, method, doc_id):
+    true_class = prob_df.loc[doc_id, "true_class"]
+    if method == 0: # word
+        attr_df = attr_word_df_list[doc_id]
+        attr_df['Feature'] = attr_df['word']
+        attr_df['Index'] = attr_df['index']
+        attr_df['Attribution Score'] = attr_df['attr_%d'% int(class_n)]
+    elif method == 2: # diff word
+        attr_df = attr_word_df_list[doc_id]
+        attr_df['Feature'] = attr_df['word']
+        attr_df['Index'] = attr_df['index']
+        attr_df['Attribution Score'] = attr_df['attr_%d' % int(class_n)] - attr_df['attr_%d' % int(true_class)]
+    elif method == 1: # ngram
+        attr_df = attr_ngram_df_list[doc_id]
+        attr_df['Feature'] = attr_df.index
+        attr_df['Index'] = attr_df['pos']
+        attr_df['Attribution Score'] = attr_df['attr_%d' % int(class_n)]
+    else: # diff ngram
+        attr_df = attr_ngram_df_list[doc_id]
+        attr_df['Feature'] = attr_df.index
+        attr_df['Index'] = attr_df['pos']
+        attr_df['Attribution Score'] = attr_df['attr_%d' % int(class_n)] - attr_df['attr_%d' % int(true_class)]
+
+    attr_df = attr_df[['Index','Feature','Attribution Score']]
+    max_v = attr_df['Attribution Score'].max()
+    min_v = attr_df['Attribution Score'].min()
+    attr_df = attr_df[attr_df['Attribution Score'] != 0]
+    return ConditionalTable(attr_df, max_v, min_v)
+
+
+
 @app.callback(
     Output("prob", "figure"),
     [Input('doc-id', "children")]

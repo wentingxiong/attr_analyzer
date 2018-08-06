@@ -1,1 +1,1 @@
-web: gunicorn attr_analyzer:server
+web: gunicorn app:server

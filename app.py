@@ -147,110 +147,110 @@ app.layout = html.Div([
     html.Div(id = 'doc-id', style = {'display': "nne"})
 ])
 
-@app.callback(
-    Output("doc-id", "children"),
-    [Input('class-input', "value"),
-     Input('random-button', 'n_clicks')]
-)
-def update_doc_id(n_class, n_clicks):
-    temp_df = prob_df[prob_df['true_class']==n_class]
-    id_list = temp_df['doc_id'].tolist()
-    temp_id = id_list[randint(0,len(id_list)-1)]
-    #temp_id = 148
-    return temp_id
-
-
-@app.callback(
-    Output("text-input", "children"),
-    [Input('doc-id',"children")]
-)
-def update_input_text(doc_id):
-    return html.P(raw_text[doc_id])
+# @app.callback(
+#     Output("doc-id", "children"),
+#     [Input('class-input', "value"),
+#      Input('random-button', 'n_clicks')]
+# )
+# def update_doc_id(n_class, n_clicks):
+#     temp_df = prob_df[prob_df['true_class']==n_class]
+#     id_list = temp_df['doc_id'].tolist()
+#     temp_id = id_list[randint(0,len(id_list)-1)]
+#     #temp_id = 148
+#     return temp_id
+#
+#
+# @app.callback(
+#     Output("text-input", "children"),
+#     [Input('doc-id',"children")]
+# )
 # def update_input_text(doc_id):
+#     return html.P(raw_text[doc_id])
+# # def update_input_text(doc_id):
+# #     attr_df = attr_word_df_list[doc_id]
+# #     x_string = attr_df['word'].tolist()
+# #     return ' '.join(x_string)
+#
+#
+# @app.callback(
+#     Output('high-light', 'children'),
+#     [Input('doc-id', "children"),
+#      Input('class-input-right', 'value')]
+# )
+# def update_highlight(doc_id,class_n):
 #     attr_df = attr_word_df_list[doc_id]
 #     x_string = attr_df['word'].tolist()
-#     return ' '.join(x_string)
-
-
-@app.callback(
-    Output('high-light', 'children'),
-    [Input('doc-id', "children"),
-     Input('class-input-right', 'value')]
-)
-def update_highlight(doc_id,class_n):
-    attr_df = attr_word_df_list[doc_id]
-    x_string = attr_df['word'].tolist()
-    scores =  attr_df['attr_%d'% int(class_n)].tolist()
-    max_v = max(scores)
-    min_v = min(scores)
-    span_list = []
-    for word, s in zip(x_string, scores):
-        score_scale = rescale_score_by_abs(s, max_v, min_v)
-        style = {'backgroundColor': getRGB(colormap(score_scale)),
-        'display': 'inline-block'}
-        span_list.append(
-            html.Span(word, style = style)
-        )
-        span_list.append(html.Span(" "))
-
-    return html.Div(span_list)
-
-
-@app.callback(
-    Output('table-display', 'rows'),
-    [Input('class-input-right', 'value'),
-     Input('attr-method', 'value'),
-     Input('doc-id', "children")])
-def update_table(class_n, method, doc_id):
-    true_class = prob_df.loc[doc_id, "true_class"]
-    if method == 0: # word
-        attr_df = attr_word_df_list[doc_id]
-        attr_df['Feature'] = attr_df['word']
-        attr_df['Index'] = attr_df['index']
-        attr_df['Attribution Score'] = attr_df['attr_%d'% int(class_n)]
-    elif method == 2: # diff word
-        attr_df = attr_word_df_list[doc_id]
-        attr_df['Feature'] = attr_df['word']
-        attr_df['Index'] = attr_df['index']
-        attr_df['Attribution Score'] = attr_df['attr_%d' % int(class_n)] - attr_df['attr_%d' % int(true_class)]
-    elif method == 1: # ngram
-        attr_df = attr_ngram_df_list[doc_id]
-        attr_df['Feature'] = attr_df.index
-        attr_df['Index'] = attr_df['pos']
-        attr_df['Attribution Score'] = attr_df['attr_%d' % int(class_n)]
-    else: # diff ngram
-        attr_df = attr_ngram_df_list[doc_id]
-        attr_df['Feature'] = attr_df.index
-        attr_df['Index'] = attr_df['pos']
-        attr_df['Attribution Score'] = attr_df['attr_%d' % int(class_n)] - attr_df['attr_%d' % int(true_class)]
-
-    attr_df = attr_df[['Index','Feature','Attribution Score']]
-    max_v = attr_df['Attribution Score'].max()
-    min_v = attr_df['Attribution Score'].min()
-    attr_df = attr_df[attr_df['Attribution Score'] != 0]
-    return ConditionalTable(attr_df, max_v, min_v)
-
-
-
-@app.callback(
-    Output("prob", "figure"),
-    [Input('doc-id', "children")]
-)
-def update_figure(doc_id):
-    prob_bar = [go.Bar(
-        x = list(label_dict.keys()),
-        y = prob_df.loc[int(doc_id),"prob_0":"prob_10"].tolist(),
-        opacity = 0.6
-    )]
-
-    return {
-        'data': prob_bar,
-        'layout': go.Layout(
-            xaxis={'title': "Class"},
-            yaxis={'title': "Probability"},
-            title= "Predicted Probability for each class"
-        )
-    }
+#     scores =  attr_df['attr_%d'% int(class_n)].tolist()
+#     max_v = max(scores)
+#     min_v = min(scores)
+#     span_list = []
+#     for word, s in zip(x_string, scores):
+#         score_scale = rescale_score_by_abs(s, max_v, min_v)
+#         style = {'backgroundColor': getRGB(colormap(score_scale)),
+#         'display': 'inline-block'}
+#         span_list.append(
+#             html.Span(word, style = style)
+#         )
+#         span_list.append(html.Span(" "))
+#
+#     return html.Div(span_list)
+#
+#
+# @app.callback(
+#     Output('table-display', 'rows'),
+#     [Input('class-input-right', 'value'),
+#      Input('attr-method', 'value'),
+#      Input('doc-id', "children")])
+# def update_table(class_n, method, doc_id):
+#     true_class = prob_df.loc[doc_id, "true_class"]
+#     if method == 0: # word
+#         attr_df = attr_word_df_list[doc_id]
+#         attr_df['Feature'] = attr_df['word']
+#         attr_df['Index'] = attr_df['index']
+#         attr_df['Attribution Score'] = attr_df['attr_%d'% int(class_n)]
+#     elif method == 2: # diff word
+#         attr_df = attr_word_df_list[doc_id]
+#         attr_df['Feature'] = attr_df['word']
+#         attr_df['Index'] = attr_df['index']
+#         attr_df['Attribution Score'] = attr_df['attr_%d' % int(class_n)] - attr_df['attr_%d' % int(true_class)]
+#     elif method == 1: # ngram
+#         attr_df = attr_ngram_df_list[doc_id]
+#         attr_df['Feature'] = attr_df.index
+#         attr_df['Index'] = attr_df['pos']
+#         attr_df['Attribution Score'] = attr_df['attr_%d' % int(class_n)]
+#     else: # diff ngram
+#         attr_df = attr_ngram_df_list[doc_id]
+#         attr_df['Feature'] = attr_df.index
+#         attr_df['Index'] = attr_df['pos']
+#         attr_df['Attribution Score'] = attr_df['attr_%d' % int(class_n)] - attr_df['attr_%d' % int(true_class)]
+#
+#     attr_df = attr_df[['Index','Feature','Attribution Score']]
+#     max_v = attr_df['Attribution Score'].max()
+#     min_v = attr_df['Attribution Score'].min()
+#     attr_df = attr_df[attr_df['Attribution Score'] != 0]
+#     return ConditionalTable(attr_df, max_v, min_v)
+#
+#
+#
+# @app.callback(
+#     Output("prob", "figure"),
+#     [Input('doc-id', "children")]
+# )
+# def update_figure(doc_id):
+#     prob_bar = [go.Bar(
+#         x = list(label_dict.keys()),
+#         y = prob_df.loc[int(doc_id),"prob_0":"prob_10"].tolist(),
+#         opacity = 0.6
+#     )]
+#
+#     return {
+#         'data': prob_bar,
+#         'layout': go.Layout(
+#             xaxis={'title': "Class"},
+#             yaxis={'title': "Probability"},
+#             title= "Predicted Probability for each class"
+#         )
+#     }
 
 if __name__ == '__main__':
     app.run_server()

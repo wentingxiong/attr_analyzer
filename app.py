@@ -11,14 +11,13 @@ import pandas as pd
 import numpy as np
 import os
 from random import randint
-# from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt
+matplotlib.use("Agg")
 
 # from utils.heatmap_minmax import getRGB, rescale_score_by_abs
 
 import pickle
 
-
-# matplotlib.use("agg")
 # app = dash.Dash("attr")
 # server = app.server
 

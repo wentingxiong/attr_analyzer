@@ -5,9 +5,11 @@ import dash_html_components as html
 import dash_table_experiments as dt
 import plotly
 from dash.dependencies import Input, Output, State
+import flask
 import plotly.graph_objs as go
 import pandas as pd
 import numpy as np
+import os
 from random import randint
 import matplotlib.pyplot as plt
 from IPython.display import HTML
@@ -17,8 +19,15 @@ from utils.heatmap_minmax import getRGB, rescale_score_by_abs, html_heatmap
 import pickle
 
 
-app = dash.Dash("attr")
-server = app.server
+# app = dash.Dash("attr")
+# server = app.server
+
+server = flask.Flask('attr_analyzer')
+server.secret_key = os.environ.get('secret_key', 'secret')
+
+app = dash.Dash('attr_analyzer', server=server)
+
+app.scripts.config.serve_locally = False
 #plotly.tools.set_credentials_file(username='wtx0321', api_key='6cfQQ1bYUIPfsrwfQzuj')
 
 with open("data1/label_dict.pickle", "rb") as pfile:

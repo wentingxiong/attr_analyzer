@@ -1,23 +1,24 @@
 # -*- coding: utf-8 -*-
 import dash
+from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_table_experiments as dt
-from dash.dependencies import Input, Output
+
 import flask
 import plotly.graph_objs as go
 import pandas as pd
 import numpy as np
 import os
 from random import randint
-from matplotlib import pyplot as plt
+# from matplotlib import pyplot as plt
 
 # from utils.heatmap_minmax import getRGB, rescale_score_by_abs
 
 import pickle
 
 
-matplotlib.use("agg")
+# matplotlib.use("agg")
 # app = dash.Dash("attr")
 # server = app.server
 
@@ -44,8 +45,8 @@ app.scripts.config.serve_locally = False
 # DOC_ID = 0
 # CLASS_ID = 0
 
-cmap_name="bwr"
-colormap  = plt.get_cmap(cmap_name)
+# cmap_name="bwr"
+# colormap  = plt.get_cmap(cmap_name)
 
 
 def rescale_score_by_abs(score, max_score, min_score):

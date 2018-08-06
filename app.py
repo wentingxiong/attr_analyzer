@@ -23,25 +23,25 @@ import pickle
 server = flask.Flask('app')
 server.secret_key = os.environ.get('secret_key', 'secret')
 
-with open("data1/label_dict.pickle", "rb") as pfile:
-    label_dict = pickle.load(pfile)
-
-with open("data1/word_attr_list.pickle","rb") as pfile:
-    attr_word_df_list = pickle.load(pfile)
-
-with open("data1/ngram_attr_list.pickle", "rb") as pfile:
-    attr_ngram_df_list = pickle.load(pfile)
-
-with open("data1/raw_text.pickle", "rb") as pfile:
-    raw_text = pickle.load(pfile)
-
-prob_df = pd.read_csv("data1/prob.csv")
+# with open("data1/label_dict.pickle", "rb") as pfile:
+#     label_dict = pickle.load(pfile)
+#
+# with open("data1/word_attr_list.pickle","rb") as pfile:
+#     attr_word_df_list = pickle.load(pfile)
+#
+# with open("data1/ngram_attr_list.pickle", "rb") as pfile:
+#     attr_ngram_df_list = pickle.load(pfile)
+#
+# with open("data1/raw_text.pickle", "rb") as pfile:
+#     raw_text = pickle.load(pfile)
+#
+# prob_df = pd.read_csv("data1/prob.csv")
 
 app = dash.Dash('app', server=server)
 app.scripts.config.serve_locally = False
 
-DOC_ID = 0
-CLASS_ID = 0
+# DOC_ID = 0
+# CLASS_ID = 0
 
 cmap_name="bwr"
 colormap  = plt.get_cmap(cmap_name)
@@ -74,77 +74,77 @@ app.layout = html.Div([
     #html.H2("Feature Attribution Analyzer"),
     html.Div([html.Span('Feature Attribution Analyzer',
               style = {'padding': '5px', 'fontSize': '34px','color':'#5E5E5E'})],
-             style = {"text-align": "center"}),
-    html.Div([
-        html.Div([
-            html.H4("Choose a document from class"),
-            dcc.Dropdown(
-                id='class-input',
-                options=[{'label': k, 'value': np.argmax(v)}
-                         for k, v in label_dict.items()],
-                value=0,
-                clearable=False
-            )
-            # html.Button("Random", id = 'random-button')
-        ],
-        style= {"margin-bottom": 10, "margin-top": 0}),
-        # dcc.Textarea(
-        #     placeholder = 'Enter a document...',
-        #     value = ' ',
-        #     id = 'text-input',
-        #     style={'overflowY': 'scroll', 'height': 200, 'width': '100%'}
-        # ),
-        html.Button("Random", id = 'random-button'),
-
-        html.Div(
-            id='text-input',
-            style={'overflowY': 'scroll', 'height': 200, "margin-bottom": 10, "margin-top": 5,'border': 'thin lightgrey solid'}
-        ),
-        dcc.Graph(
-            id="prob"
-        )
-    ],
-        style={'width': '45%', 'display': 'inline-block', 'vertical-align': 'top'}),
-    html.Div(style={'width': '2%', 'display': 'inline-block','vertical-align': 'middle'}),
-
-    html.Div([
-        html.H4("Choose a class to compute attribution scores"),
-        dcc.Dropdown(
-            id='class-input-right',
-            options=[{'label': k, 'value': np.argmax(v)}
-                     for k, v in label_dict.items()],
-            value=0,
-            clearable=False
-        ),
-        #html.H3("Highlighted Document"),
-        html.Div(
-            id='high-light',
-            style={'overflowY': 'scroll', 'height': 200, "margin-top": 36, 'border': 'thin lightgrey solid'}
-        ),
-        html.H4("Type of attributions"),
-        dcc.Dropdown(
-            id = 'attr-method',
-            options=[{'label': "Attributions on words", 'value': 0,},
-                     {'label': "Attributions on ngram", 'value': 1, },
-                     {'label': "Attribution differences on words", 'value': 2, },
-                     {'label': "Attributions differences on words", 'value': 3, }],
-            value=0,
-            clearable=False
-            ),
-        dt.DataTable(
-            # Initialise the rows
-            rows=[{}],
-            #row_selectable=True,
-            filterable=True,
-            sortable=True,
-            #selected_row_indices=[],
-            id='table-display'
-        )
-    ],
-        style={'width': '45%', 'display': 'inline-block','vertical-align': 'middle'}),
-
-    # hidden divs
-    html.Div(id = 'doc-id', style = {'display': "nne"})
+             style = {"text-align": "center"})
+    # html.Div([
+    #     html.Div([
+    #         html.H4("Choose a document from class"),
+    #         dcc.Dropdown(
+    #             id='class-input',
+    #             options=[{'label': k, 'value': np.argmax(v)}
+    #                      for k, v in label_dict.items()],
+    #             value=0,
+    #             clearable=False
+    #         )
+    #         # html.Button("Random", id = 'random-button')
+    #     ],
+    #     style= {"margin-bottom": 10, "margin-top": 0}),
+    #     # dcc.Textarea(
+    #     #     placeholder = 'Enter a document...',
+    #     #     value = ' ',
+    #     #     id = 'text-input',
+    #     #     style={'overflowY': 'scroll', 'height': 200, 'width': '100%'}
+    #     # ),
+    #     html.Button("Random", id = 'random-button'),
+    #
+    #     html.Div(
+    #         id='text-input',
+    #         style={'overflowY': 'scroll', 'height': 200, "margin-bottom": 10, "margin-top": 5,'border': 'thin lightgrey solid'}
+    #     ),
+    #     dcc.Graph(
+    #         id="prob"
+    #     )
+    # ],
+    #     style={'width': '45%', 'display': 'inline-block', 'vertical-align': 'top'}),
+    # html.Div(style={'width': '2%', 'display': 'inline-block','vertical-align': 'middle'}),
+    #
+    # html.Div([
+    #     html.H4("Choose a class to compute attribution scores"),
+    #     dcc.Dropdown(
+    #         id='class-input-right',
+    #         options=[{'label': k, 'value': np.argmax(v)}
+    #                  for k, v in label_dict.items()],
+    #         value=0,
+    #         clearable=False
+    #     ),
+    #     #html.H3("Highlighted Document"),
+    #     html.Div(
+    #         id='high-light',
+    #         style={'overflowY': 'scroll', 'height': 200, "margin-top": 36, 'border': 'thin lightgrey solid'}
+    #     ),
+    #     html.H4("Type of attributions"),
+    #     dcc.Dropdown(
+    #         id = 'attr-method',
+    #         options=[{'label': "Attributions on words", 'value': 0,},
+    #                  {'label': "Attributions on ngram", 'value': 1, },
+    #                  {'label': "Attribution differences on words", 'value': 2, },
+    #                  {'label': "Attributions differences on words", 'value': 3, }],
+    #         value=0,
+    #         clearable=False
+    #         ),
+    #     dt.DataTable(
+    #         # Initialise the rows
+    #         rows=[{}],
+    #         #row_selectable=True,
+    #         filterable=True,
+    #         sortable=True,
+    #         #selected_row_indices=[],
+    #         id='table-display'
+    #     )
+    # ],
+    #     style={'width': '45%', 'display': 'inline-block','vertical-align': 'middle'}),
+    #
+    # # hidden divs
+    # html.Div(id = 'doc-id', style = {'display': "nne"})
 ])
 
 # @app.callback(

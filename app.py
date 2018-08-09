@@ -169,9 +169,9 @@ app.layout = html.Div([
         dcc.Dropdown(
             id = 'attr-method',
             options=[{'label': "Attributions on words", 'value': 0,},
-                     {'label': "Attributions on ngram", 'value': 1, },
+                     {'label': "Attributions on ngrams", 'value': 1, },
                      {'label': "Attribution differences on words", 'value': 2, },
-                     {'label': "Attributions differences on words", 'value': 3, }],
+                     {'label': "Attribution differences on n-grams", 'value': 3, }],
             value=0,
             clearable=False
             ),
@@ -188,7 +188,7 @@ app.layout = html.Div([
         style={'width': '45%', 'display': 'inline-block','vertical-align': 'middle'}),
 
     # hidden divs
-    html.Div(id = 'doc-id', style = {'display': "nne"})
+    html.Div(id = 'doc-id', style = {'display': "none"})
 ])
 
 @app.callback(
